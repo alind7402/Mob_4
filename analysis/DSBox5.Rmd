@@ -1,0 +1,13 @@
+---
+title: "Data Science in a Box Lab 4"
+author: "Alex Lindquist, Nate Smullen, Wynter Malone, Yadhira Garcia"
+date: "10/17/2022"
+output: html_notebook
+---
+
+##Load Packages
+
+```{r}
+library(tidyverse)
+library(dsbox)
+```
