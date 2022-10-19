@@ -152,4 +152,51 @@ summary(dn_lq_tx_mindist)
 dn_lq_tx_mindist %>% ggplot(aes(x=closest)) + geom_histogram()
 ```
 The distribution for the closest LaQuinta to each Denny's is skewed right, with
-a majority of the Denny's having a Laquinta within 10 kilometers.
+a majority of the Denny's having a LaQuinta within 10 kilometers.
+
+##California
+```{r}
+dn_ca <- dennys %>%
+  filter(state == "CA")
+nrow(dn_ca)
+```
+There are 403 Denny's in California.
+
+```{r}
+lq_ca <- laquinta %>%
+  filter(state == "CA")
+nrow(lq_ca)
+```
+There are 56 LaQuintas in California.
+
+```{r}
+dn_lq_ca <- full_join(dn_ca, lq_ca, by = "state")
+dn_lq_ca
+```
+There are 22,568 observations in this joined dataframe, as there are 403 Denny's
+and 56 LaQuintas. The Denny's are represented with .x variable names whereas
+the LaQuintas are represented with the .y variable names.
+
+
+```{r}
+dn_lq_ca <- dn_lq_ca %>% mutate(distance = haversine(longitude.x, latitude.x, 
+                                                     longitude.y, latitude.y))
+```
+
+```{r}
+dn_lq_ca_mindist <- dn_lq_ca %>%
+  group_by(address.x) %>%
+  summarise(closest = min(distance))
+```
+
+```{r}
+summary(dn_lq_ca_mindist)
+dn_lq_ca_mindist %>% ggplot(aes(x=closest)) + geom_histogram()
+```
+The distribution for the closest LaQuinta to each Denny's is skewed right, with
+a majority of the Denny's having a LaQuinta within 25 kilometers.
+
+Among the states we have examined, Mitch Hedberg's joke most applies to Texas,
+as most of the observations have less than 10km in between. Alaska has the 
+closest, however there are only 3 Denny's, so it is harder to say if that is 
+significant, or just a byproduct of Alaska not having many Denny's restaurants.
