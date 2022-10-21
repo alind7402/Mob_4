@@ -10,6 +10,8 @@ output: html_notebook
 ```{r}
 library(tidyverse)
 library(dsbox)
+library(here)
+library(janitor)
 ```
 
 ##Alaska
@@ -200,3 +202,9 @@ Among the states we have examined, Mitch Hedberg's joke most applies to Texas,
 as most of the observations have less than 10km in between. Alaska has the 
 closest, however there are only 3 Denny's, so it is harder to say if that is 
 significant, or just a byproduct of Alaska not having many Denny's restaurants.
+
+```{r}
+file = here("data_raw","FastFoodRestaurants.csv")
+ffr <- read_csv(file)
+```
+
