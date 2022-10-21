@@ -208,3 +208,46 @@ file = here("data_raw","FastFoodRestaurants.csv")
 ffr <- read_csv(file)
 ```
 
+In order to determine if Mitch Hedberg's joke applies to just Denny's, or if it
+is just a byproduct of businesses being located in populated areas, we will 
+compare the distance between LaQuinta and Denny's to the distance between 
+LaQuinta and another fast food restaurant with a similar number of locations.
+Because most fast food restaurants have more locations than Denny's does in 
+many of the states we are looking at, we will perform a random sample of these
+fast food restaurants in order to have a fair comparison.
+
+```{r}
+mcd_nc <- ffr %>% 
+  rename(state = province) %>%
+  filter(state == "NC", name == "McDonald's") %>%
+  slice_sample(n=28)
+
+```
+
+```{r}
+mcd_lq_nc <- full_join(mcd_nc, lq_nc, by = "state")
+mcd_lq_nc
+```
+There are 336 observations in this joined dataframe, as there are 28 Denny's and 
+12 LaQuintas. The Denny's are represented with .x variable names whereas the 
+LaQuintas are represented with the .y variable names.
+
+
+```{r}
+mcd_lq_nc <- mcd_lq_nc %>% mutate(distance = haversine(longitude.x, latitude.x, 
+                                                     longitude.y, latitude.y))
+```
+
+```{r}
+mcd_lq_nc_mindist <- mcd_lq_nc %>%
+  group_by(address.x) %>%
+  summarise(closest = min(distance))
+```
+
+```{r}
+summary(mcd_lq_nc_mindist)
+mcd_lq_nc_mindist %>% ggplot(aes(x=closest)) + geom_histogram()
+
+dn_lq_nc_mindist %>% ggplot(aes(x=closest)) + geom_histogram()
+
+```
