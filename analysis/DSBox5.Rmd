@@ -1,5 +1,5 @@
 ---
-title: "Data Science in a Box Lab 4"
+title: "Data Science in a Box Lab 5"
 author: "Alex Lindquist, Nate Smullen, Wynter Malone, Yadhira Garcia"
 date: "10/17/2022"
 output: html_notebook
@@ -248,6 +248,7 @@ mcd_lq_nc_mindist <- mcd_lq_nc %>%
 summary(mcd_lq_nc_mindist)
 mcd_lq_nc_mindist %>% ggplot(aes(x=closest)) + geom_histogram()
 
+summary(dn_lq_nc_mindist)
 dn_lq_nc_mindist %>% ggplot(aes(x=closest)) + geom_histogram()
 
 ```
